@@ -1,21 +1,22 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import time
-import csv
-import copy
 import argparse
+import copy
+import csv
 import itertools
-from collections import Counter
-from collections import deque
+import time
+from collections import Counter, deque
 
 import cv2 as cv
 import numpy as np
+
 print(time.time())
-from mediapipe import solutions
+from mediapipe.python.solutions.hands import Hands
 
 from utils import CvFpsCalc
-from model import KeyPointClassifier
-from model import PointHistoryClassifier
+
+# from model import KeyPointClassifier
+# from model import PointHistoryClassifier
 
 print(time.time())
 
@@ -65,8 +66,8 @@ def main():
     # モデルロード #############################################################
 
     print(f"before model load {time.time()}")
-    mp_hands = solutions.hands
-    hands = mp_hands.Hands(
+    # mp_hands = hands
+    hands = Hands(
         static_image_mode=use_static_image_mode,
         max_num_hands=1,
         min_detection_confidence=min_detection_confidence,
@@ -76,9 +77,9 @@ def main():
 
     print(f"loading classifier {time.time()}")
 
-    keypoint_classifier = KeyPointClassifier()
+    # keypoint_classifier = KeyPointClassifier()
 
-    point_history_classifier = PointHistoryClassifier()
+    # point_history_classifier = PointHistoryClassifier()
     print(f"loaded classifier {time.time()}")
 
     # ラベル読み込み ###########################################################
@@ -111,8 +112,6 @@ def main():
 
     while True:
         fps = cvFpsCalc.get()
-
-        print(fps)
 
         # キー処理(ESC：終了) #################################################
         key = cv.waitKey(10)
